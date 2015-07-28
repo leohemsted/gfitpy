@@ -1,0 +1,5 @@
+gfitpy
+======
+
+.. automodule:: gfitpy
+    :members:
