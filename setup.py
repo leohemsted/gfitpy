@@ -1,25 +1,31 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
-from __future__ import absolute_import, print_function
+from __future__ import division, absolute_import, print_function
 
-import io
 import os
-import re
-from glob import glob
-from os.path import basename
-from os.path import dirname
-from os.path import join
-from os.path import relpath
-from os.path import splitext
 
 from setuptools import find_packages
 from setuptools import setup
+from setuptools.command.test import test as TestCommand
 
-def read(*names, **kwargs):
-    return io.open(
-        join(dirname(__file__), *names),
-        encoding=kwargs.get('encoding', 'utf8')
-    ).read()
+# Get the long description from the relevant file
+here = os.path.abspath(os.path.dirname(__file__))
+with open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
+    long_description = f.read()
+
+# setup PyTest's weird TestCommand stuff
+class PyTest(TestCommand):
+    def finalize_options(self):
+        TestCommand.finalize_options(self)
+        self.test_args = []
+        self.test_suite = True
+
+    def run_tests(self):
+        import pytest
+        errno = pytest.main(self.test_args)
+        sys.exit(errno)
+
+
 
 
 setup(
@@ -27,13 +33,12 @@ setup(
     version='0.1.0',
     license='BSD',
     description='Gfitpy - A library for interacting with Google Fit',
-    long_description='%s\n%s' % (read('README.rst'), re.sub(':[a-z]+:`~?(.*?)`', r'``\1``', read('CHANGELOG.rst'))),
+    long_description=long_description,
     author='Leo Hemsted',
     author_email='leohemsted@gmail.com',
     url='https://github.com/leohemsted/gfitpy',
     packages=find_packages('src'),
     package_dir={'': 'src'},
-    py_modules=[splitext(basename(path))[0] for path in glob('src/*.py')],
     include_package_data=True,
     zip_safe=False,
     classifiers=[
@@ -63,12 +68,13 @@ setup(
         'google-api-python-client',
         # 'oauth2client>=1.4.6',
     ],
-    tests_require=['mock', 'pytest']
+    tests_require=['mock', 'pytest'],
     extras_require={
         # eg:
         #   'rst': ['docutils>=0.11'],
         #   ':python_version=="2.6"': ['argparse'],
     },
+    cmdclass={'test': PyTest},
     entry_points={
         'console_scripts': [
             'gfitpy = gfitpy.__main__:main',

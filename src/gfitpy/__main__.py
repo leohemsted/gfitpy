@@ -27,7 +27,7 @@ def main(argv=()):
     gfit = GfitAPI(
         settings={'client_id': CLIENT_ID, 'client_secret': CLIENT_SECRET}
     )
-    
+
     with gfit(start):
         cal_data = gfit.get_cal_data()
         act_data = gfit.get_activity_data()
