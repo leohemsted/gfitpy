@@ -39,13 +39,13 @@ GfitPy
     :target: https://landscape.io/github/leohemsted/gfitpy/master
     :alt: Code Quality Status
 
-.. |version| image:: http://img.shields.io/pypi/v/gfitpy.svg?style=flat
+/*.. |version| image:: http://img.shields.io/pypi/v/gfitpy.svg?style=flat
     :alt: PyPI Package latest release
     :target: https://pypi.python.org/pypi/gfitpy
 
 .. |downloads| image:: http://img.shields.io/pypi/dm/gfitpy.svg?style=flat
     :alt: PyPI Package monthly downloads
-    :target: https://pypi.python.org/pypi/gfitpy
+    :target: https://pypi.python.org/pypi/gfitpy*/
 
 Gfitpy - A library for interacting with Google Fit
 
