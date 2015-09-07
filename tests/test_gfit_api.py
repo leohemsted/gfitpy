@@ -71,10 +71,7 @@ def test_enter_sets_start():
     api = GfitAPI({})
 
     with patch.object(GfitAPI, 'login'):
-        api.__enter__(Mock())
-    print('\n'*10)
-    print(api.start)
-    print(start)
+        api.__enter__(start)
     assert api.start == start
 
 
@@ -112,21 +109,21 @@ def test_credentials_retrieved(storage, refresh_creds):
 )
 def test_credentials_are_refreshed_when_invalid(storage_get):
     with patch.object(GfitAPI, 'refresh_credentials') as refresh_creds,\
-        patch('gfitpy.gfit_api.Storage') as Storage:
-        Storage.return_value.get.return_value = storage_get
+        patch('gfitpy.gfit_api.Storage') as storage:
+        storage.return_value.get.return_value = storage_get
 
         api = GfitAPI({})
 
         ret = api.get_credentials()
 
     # refresh_credentials was not called
-    assert refresh_creds.call_args_list == [call(Storage.return_value)]
+    assert refresh_creds.call_args_list == [call(storage.return_value)]
     assert ret == refresh_creds.return_value
 
 @patch.object(GfitAPI, 'refresh_credentials')
 @patch('gfitpy.gfit_api.Storage')
-def test_credentials_are_not_touched_when_valid(Storage, refresh_creds):
-    storage = Storage.return_value
+def test_credentials_are_not_touched_when_valid(storage, refresh_creds):
+    storage = storage.return_value
     # storage returns something that is valid
     storage.get.return_value = Mock(invalid=False)
 
@@ -143,13 +140,15 @@ def test_credentials_are_not_touched_when_valid(Storage, refresh_creds):
 @patch('gfitpy.gfit_api.argparse')
 @patch('gfitpy.gfit_api.tools')
 @patch('gfitpy.gfit_api.OAuth2WebServerFlow')
-@patch.object(GfitAPI, 'api_scope')
-def test_refresh_credentials_creates_flow(api_scope, oauth, tools, argparse):
+def test_refresh_credentials_creates_flow(oauth, tools, argparse):
     client_id = Mock()
     client_secret = Mock()
-    GfitAPI({'client_id': client_id, 'client_secret': client_secret}).refresh_credentials(Mock())
+    oauth_scope = Mock()
+    GfitAPI(
+        {'client_id': client_id, 'client_secret': client_secret, 'api_scope': oauth_scope}
+    ).refresh_credentials(Mock())
 
-    assert oauth.call_args_list == [call(client_id, client_secret, api_scope)]
+    assert oauth.call_args_list == [call(client_id, client_secret, oauth_scope)]
 
 @patch('gfitpy.gfit_api.argparse')
 @patch('gfitpy.gfit_api.tools')
@@ -160,7 +159,5 @@ def test_refresh_credentials_runs_flow(api_scope, oauth, tools, argparse):
     flags = argparse.ArgumentParser.return_value.parse_args.return_value
 
     GfitAPI({}).refresh_credentials(storage)
-
-    print(GfitAPI().api_scope)
 
     assert tools.run_flow.call_args_list == [call(oauth.return_value, storage, flags)]

@@ -13,7 +13,7 @@ class GfitAPI(object):
     api_scope = None
     def __init__(self, settings_dict=None):
         if settings_dict is None:
-            settings_dict={}
+            settings_dict = {}
         settings = self.default_settings()
         settings.update(settings_dict)
 
@@ -93,11 +93,11 @@ class GfitAPI(object):
         return self._get_fit_data(data_source=data, data_type='intVal')
 
 
-    def process_datapoint(self, point, data_type):
+    @staticmethod
+    def process_datapoint(point, data_type):
         # no idea what might trip this one up
         if len(point['value']) != 1:
-            print(point)
-            raise NotImplementedError('can only handle one value in a point')
+            raise NotImplementedError('can only handle one value in a point, instead found {0}'.format(point))
 
         start_ns = float(point['startTimeNanos'])
         end_ns = float(point['endTimeNanos'])

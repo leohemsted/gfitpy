@@ -40,7 +40,7 @@ Installation
 Documentation
 =============
 
-https://gfitpy.readthedocs.org/
+tbd
 
 Development
 ===========
