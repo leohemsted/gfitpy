@@ -5,17 +5,9 @@ GfitPy
 .. list-table::
     :stub-columns: 1
 
-    * - docs
-      - |docs|
     * - tests
       - | |travis| |appveyor|
-        | |coveralls| |codecov| |landscape|
-    * - package
-      - |version| |downloads|
-
-.. |docs| image:: https://readthedocs.org/projects/gfitpy/badge/?style=flat
-    :target: https://readthedocs.org/projects/gfitpy
-    :alt: Documentation Status
+        | |coveralls| |codecov|
 
 .. |travis| image:: http://img.shields.io/travis/leohemsted/gfitpy/master.svg?style=flat&label=Travis
     :alt: Travis-CI Build Status
@@ -29,23 +21,10 @@ GfitPy
     :alt: Coverage Status
     :target: https://coveralls.io/r/leohemsted/gfitpy
 
-
 .. |codecov| image:: http://img.shields.io/codecov/c/github/leohemsted/gfitpy/master.svg?style=flat&label=Codecov
     :alt: Coverage Status
     :target: https://codecov.io/github/leohemsted/gfitpy
 
-
-.. |landscape| image:: https://landscape.io/github/leohemsted/gfitpy/master/landscape.svg?style=flat
-    :target: https://landscape.io/github/leohemsted/gfitpy/master
-    :alt: Code Quality Status
-
-/*.. |version| image:: http://img.shields.io/pypi/v/gfitpy.svg?style=flat
-    :alt: PyPI Package latest release
-    :target: https://pypi.python.org/pypi/gfitpy
-
-.. |downloads| image:: http://img.shields.io/pypi/dm/gfitpy.svg?style=flat
-    :alt: PyPI Package monthly downloads
-    :target: https://pypi.python.org/pypi/gfitpy*/
 
 Gfitpy - A library for interacting with Google Fit
 
