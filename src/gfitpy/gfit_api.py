@@ -10,14 +10,16 @@ from oauth2client import tools
 from .utils import DateRange
 
 class GfitAPI(object):
+    api_scope = None
     def __init__(self, settings_dict=None):
         if settings_dict is None:
-            settings_dict = self.default_settings()
-        else:
-            settings_dict = self.default_settings().update(settings_dict)
+            settings_dict={}
+        settings = self.default_settings()
+        settings.update(settings_dict)
 
-        self.client_id = settings_dict['client_id']
-        self.client_secret = settings_dict['client_secret']
+        self.client_id = settings['client_id']
+        self.client_secret = settings['client_secret']
+        self.api_scope = settings['api_scope']
 
         self.start = None
         self.api = None
@@ -56,7 +58,7 @@ class GfitAPI(object):
         flow = OAuth2WebServerFlow(
             self.client_id,
             self.client_secret,
-            API_SCOPE
+            self.api_scope
         )
         # google requires me to give an argparser for flags, although I know i'll be passing none in
         parser = argparse.ArgumentParser(parents=[tools.argparser])
