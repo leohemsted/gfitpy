@@ -55,11 +55,15 @@ setup(
         'Topic :: Utilities',
     ],
     keywords=[
-        # eg: 'keyword1', 'keyword2', 'keyword3',
+        'fitness', 'google', 'api', 'rest'
     ],
     install_requires=[
-        # eg: 'aspectlib==1.1.1', 'six>=1.7',
+        'httplib2',
+        'requests',
+        'google-api-python-client',
+        # 'oauth2client>=1.4.6',
     ],
+    tests_require=['mock', 'pytest']
     extras_require={
         # eg:
         #   'rst': ['docutils>=0.11'],

@@ -1,11 +1,11 @@
 import sys
-# Why does this file exist, and why __main__?
-# For more info, read:
-# - https://www.python.org/dev/peps/pep-0338/
-# - https://docs.python.org/2/using/cmdline.html#cmdoption-m
-# - https://docs.python.org/3/using/cmdline.html#cmdoption-m
+import logging
+import datetime
 
+from .gfit_api import GfitAPI
 
+CLIENT_ID = 'abc'
+CLIENT_SECRET = 'def'
 def main(argv=()):
     """
     Args:
@@ -14,8 +14,25 @@ def main(argv=()):
     Returns:
         int: A return code
 
-    Does stuff.
+    Some sample code for gfitpy - starts up, and executes. Gets calorie and activity data for the last ten days.
     """
+
+    logging.basicConfig(
+        format='%(levelname)s: %(message)s',
+        level=logging.INFO
+    )
+
+    start_time = datetime.datetime.now() - datetime.timedelta(days=10)
+
+    gfit = GfitAPI(
+        settings={'client_id': CLIENT_ID, 'client_secret': CLIENT_SECRET}
+    )
+    
+    with gfit(start):
+        cal_data = gfit.get_cal_data()
+        act_data = gfit.get_activity_data()
+
+    import pdb; pdb.set_trace()
 
     print(argv)
     return 0
