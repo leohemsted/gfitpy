@@ -1,7 +1,8 @@
 import datetime
 
+
 class DateRange(object):
-    near_time = datetime.timedelta(seconds=10*60)
+    near_time = datetime.timedelta(seconds=10 * 60)
 
     def __init__(self, start, end):
         assert start < end
@@ -26,7 +27,6 @@ class DateRange(object):
         # create a copy with 5 minutes on either side
         wider_reach_date = DateRange(self.start - self.near_time, self.end + self.near_time)
         return other in wider_reach_date
-
 
     def __contains__(self, other):
         '''
@@ -65,12 +65,12 @@ class DateRange(object):
         return self.start == other.start and self.end == other.end
 
     # don't bother testing str and repr - they're boring functions
-    def __str__(self): # pragma: no cover
+    def __str__(self):  # pragma: no cover
         # trim the microseconds from timedelta - no-one cares about those anyway!
         trimmed_duration = datetime.timedelta(seconds=int(self.duration.total_seconds()))
         return 'DateRange s={0} d={1}'.format(self.start, trimmed_duration)
 
-    def __repr__(self): # pragma: no cover
+    def __repr__(self):  # pragma: no cover
         return '{cls}(start={s!r}, end={e!r})'.format(
             cls=self.__class__.__name__,
             s=self.start,

@@ -9,8 +9,10 @@ from oauth2client import tools
 
 from .utils import DateRange
 
+
 class GfitAPI(object):
     api_scope = None
+
     def __init__(self, settings_dict=None):
         if settings_dict is None:
             settings_dict = {}
@@ -60,18 +62,19 @@ class GfitAPI(object):
             self.client_secret,
             self.api_scope
         )
-        # google requires me to give an argparser for flags, although I know i'll be passing none in
+        # google requires me to give an argparser for flags,
+        # although I know i'll be passing none in
         parser = argparse.ArgumentParser(parents=[tools.argparser])
         flags = parser.parse_args()
         return tools.run_flow(flow, storage, flags)
 
     def login(self):
-        # code liberated from https://cloud.google.com/appengine/docs/python/endpoints/access_from_python
+        # code liberated from:
+        #  https://cloud.google.com/appengine/docs/python/endpoints/access_from_python
         self.credentials = self.get_credentials()
 
         self.authed_http = self.credentials.authorize(httplib2.Http())
         self.api = build('fitness', 'v1', http=self.authed_http)
-
 
     def _get_fit_data(self, data_source, data_type):
         response = self.api.users().dataSources().datasets().get(
@@ -82,22 +85,23 @@ class GfitAPI(object):
 
         return self.preprocess_data(response, data_type)
 
-
     def get_cal_data(self):
         data = 'derived:com.google.calories.expended:com.google.android.gms:from_activities'
         return self._get_fit_data(data_source=data, data_type='fpVal')
-
 
     def get_activity_data(self):
         data = 'derived:com.google.activity.segment:com.google.android.gms:merge_activity_segments'
         return self._get_fit_data(data_source=data, data_type='intVal')
 
-
     @staticmethod
     def process_datapoint(point, data_type):
         # no idea what might trip this one up
         if len(point['value']) != 1:
-            raise NotImplementedError('can only handle one value in a point, instead found {0}'.format(point))
+            raise NotImplementedError(
+                'can only handle one value in a point, instead found {0}'.format(
+                    point
+                )
+            )
 
         start_ns = float(point['startTimeNanos'])
         end_ns = float(point['endTimeNanos'])
@@ -111,10 +115,9 @@ class GfitAPI(object):
             'value': point['value'][0][data_type]
         }
 
-
     def preprocess_data(self, data, data_type):
-        global_start = datetime.fromtimestamp(float(data['minStartTimeNs'])/1e9)
-        global_end = datetime.fromtimestamp(float(data['maxEndTimeNs'])/1e9)
+        global_start = datetime.fromtimestamp(float(data['minStartTimeNs']) / 1e9)
+        global_end = datetime.fromtimestamp(float(data['maxEndTimeNs']) / 1e9)
 
         if 'point' in data:
             points = [self.process_datapoint(point, data_type) for point in data['point']]
@@ -125,7 +128,6 @@ class GfitAPI(object):
             'times': DateRange(global_start, global_end),
             'data': points
         }
-
 
     @staticmethod
     def get_time_range_str(start, end):
