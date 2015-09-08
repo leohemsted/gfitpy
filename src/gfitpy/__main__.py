@@ -6,6 +6,8 @@ from .gfit_api import GfitAPI
 
 CLIENT_ID = 'abc'
 CLIENT_SECRET = 'def'
+
+
 def main(argv=()):
     """
     Args:
@@ -28,12 +30,14 @@ def main(argv=()):
         settings={'client_id': CLIENT_ID, 'client_secret': CLIENT_SECRET}
     )
 
-    with gfit(start):
+    with gfit(start_time):
         cal_data = gfit.get_cal_data()
         act_data = gfit.get_activity_data()
 
-    import pdb; pdb.set_trace()
-
+    import pdb
+    pdb.set_trace()
+    print(cal_data)
+    print(act_data)
     print(argv)
     return 0
 
