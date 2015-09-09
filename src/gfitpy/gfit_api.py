@@ -44,9 +44,6 @@ class GfitAPI(object):
 
     def __exit__(self, exc_type, exc_val, traceback):
         pass
-        # # revoking code:
-        # if self.credentials and self.authed_http:
-        #     self.credentials.revoke(http=self.authed_http)
 
     def get_credentials(self):
         storage = Storage('user_credentials')

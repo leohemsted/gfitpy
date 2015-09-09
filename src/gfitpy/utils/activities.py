@@ -1,17 +1,19 @@
 from enum import Enum
 
+
 class Activity(Enum):
     '''
     As defined here:
     https://developers.google.com/fit/rest/v1/reference/activity-types
-    Only storing the ones I actually handle for now
     '''
     in_vehicle = 0
     biking = 1
     on_foot = 2
     still_not_moving = 3
-    unknown_unable_to_detect_activity = 4
-    tilting_sudden_device_gravity_change = 5
+    # unknown (Unable to detect activity)
+    unknown = 4
+    # tilting (sudden device gravity change)
+    tilting = 5
     walking = 7
     running = 8
     aerobics = 9
@@ -112,12 +114,12 @@ class Activity(Enum):
     ice_skating = 104
     indoor_skating = 105
     curling = 106
-    other_unclassified_fitness_activity = 108
+    # other unclassified fitness activity
+    other = 108
     light_sleep = 109
     deep_sleep = 110
     rem_sleep = 111
     awake_during_sleep_cycle = 112
-
 
     def valid(self):
         '''

@@ -16,7 +16,8 @@ def main(argv=()):
     Returns:
         int: A return code
 
-    Some sample code for gfitpy - starts up, and executes. Gets calorie and activity data for the last ten days.
+    Some sample code for gfitpy - starts up, and executes.
+    Gets calorie and activity data for the last ten days.
     """
 
     logging.basicConfig(
