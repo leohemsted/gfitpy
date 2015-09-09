@@ -5,31 +5,21 @@ GfitPy
 .. list-table::
     :stub-columns: 1
 
-    * - tests
-      - | |travis|
-        | |coveralls| |codecov|
+    * - Badges:
+      - | |travis| |codecov|
 
 .. |travis| image:: http://img.shields.io/travis/leohemsted/gfitpy/master.svg?style=flat&label=Travis
     :alt: Travis-CI Build Status
-    :target: https://travis-ci.org/leohemsted/gfitpy
-
-.. |coveralls| image:: http://img.shields.io/coveralls/leohemsted/gfitpy/master.svg?style=flat&label=Coveralls
-    :alt: Coverage Status
-    :target: https://coveralls.io/github/leohemsted/gfitpy
-
 .. |codecov| image:: http://img.shields.io/codecov/c/github/leohemsted/gfitpy/master.svg?style=flat&label=Codecov
     :alt: Coverage Status
     :target: https://codecov.io/github/leohemsted/gfitpy
 
 
-.. image:: https://coveralls.io/repos/leohemsted/gfitpy/badge.svg?branch=master&service=github
-  :target: https://coveralls.io/github/leohemsted/gfitpy?branch=master
 
 
 
-Gfitpy - A library for interacting with Google Fit
+Gfitpy - A library for interacting with Google Fit. Go hit that REST API gurl
 
-* Free software: BSD license
 
 Installation
 ============

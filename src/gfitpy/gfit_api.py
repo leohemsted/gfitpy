@@ -94,7 +94,7 @@ class GfitAPI(object):
     def process_datapoint(point, data_type):
         # no idea what might trip this one up
         if len(point['value']) != 1:
-            raise NotImplementedError(
+            raise ValueError(
                 'can only handle one value in a point, instead found {0}'.format(
                     point
                 )

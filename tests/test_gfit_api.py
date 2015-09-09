@@ -1,4 +1,4 @@
-from unittest.mock import Mock, patch, call
+from unittest.mock import MagicMock, Mock, patch, call
 
 import pytest
 
@@ -162,3 +162,51 @@ def test_refresh_credentials_runs_flow(api_scope, oauth, tools, argparse):
     GfitAPI({}).refresh_credentials(storage)
 
     assert tools.run_flow.call_args_list == [call(oauth.return_value, storage, flags)]
+
+
+@pytest.mark.parametrize(
+    'point',
+    [
+        # empty val
+        {'value': []},
+        # too many vals
+        {'value': [Mock(), Mock()]},
+    ]
+)
+def test_process_datapoint_raises(point):
+    with pytest.raises(ValueError):
+        GfitAPI.process_datapoint(point, data_type=Mock())
+
+
+def test_process_datapoint_gets_value():
+    val = Mock()
+    data_type = 'my_data_type'
+    point = {
+        'startTimeNanos': 1,
+        'endTimeNanos': 1,
+        'value': [{data_type: val}]
+    }
+
+    with patch('gfitpy.gfit_api.datetime'), \
+            patch('gfitpy.gfit_api.DateRange'):
+        ret = GfitAPI.process_datapoint(point, data_type)
+
+    assert ret['value'] == val
+
+
+def test_process_datapoint_creates_timerange():
+    point = {
+        'startTimeNanos': 1000000000,
+        'endTimeNanos': 2000000000,
+        'value': [MagicMock()]
+    }
+
+    with patch('gfitpy.gfit_api.datetime') as dt, \
+            patch('gfitpy.gfit_api.DateRange') as dr:
+        # use the str cast as a way to distinguish what goes in (1, 2) and what comes out ('1', '2')
+        dt.fromtimestamp.side_effect = str
+        ret = GfitAPI.process_datapoint(point, Mock())
+
+    assert dt.fromtimestamp.call_args_list == [call(1), call(2)]
+    dr.assert_called_once_with('1.0', '2.0')
+    assert ret['times'] == dr.return_value
