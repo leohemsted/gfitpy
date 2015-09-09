@@ -68,6 +68,7 @@ def test_date_ranges_contains_date(start, end, other):
     assert other in obj
     assert obj.near(other)
 
+
 @pytest.mark.parametrize(
     'start, end, other',
     [
@@ -82,17 +83,20 @@ def test_date_ranges_not_contains_date(start, end, other):
 
     assert other not in obj
 
+
 def test_date_ranges_equal():
     obj = DateRange(dt(2000, 1, 5), dt(2000, 1, 10))
     other = DateRange(dt(2000, 1, 5), dt(2000, 1, 10))
 
     assert obj == other
 
+
 def test_hash_is_consistent():
     obj = DateRange(dt(2000, 1, 5), dt(2000, 1, 10))
     other = DateRange(dt(2000, 1, 5), dt(2000, 1, 10))
 
     assert hash(obj) == hash(other)
+
 
 @pytest.mark.parametrize(
     'start, end, other_start, other_end',
@@ -110,6 +114,7 @@ def test_date_ranges_near(start, end, other_start, other_end):
 
     obj.near_time = td(seconds=300)
     assert obj.near(other)
+
 
 @pytest.mark.parametrize(
     'start, end, other_start, other_end',
@@ -145,6 +150,7 @@ def test_date_ranges_near_date(start, end, other):
     obj.near_time = td(seconds=300)
     assert obj.near(dt.combine(date, other))
 
+
 @pytest.mark.parametrize(
     'start, end, other',
     [
@@ -161,13 +167,15 @@ def test_date_ranges_not_near_date(start, end, other):
     obj.near_time = td(seconds=300)
     assert not obj.near(dt.combine(date, other))
 
+
 @pytest.mark.parametrize('val', [d.today(), t(0), 1, '', None])
 def test_near_bad_val(val):
     with pytest.raises(NotImplementedError):
         DateRange(dt(2000, 1, 1), dt(2000, 1, 2)).near(val)
 
 
-@pytest.mark.parametrize('left, right, less_than',
+@pytest.mark.parametrize(
+    'left, right, less_than',
     [
         # same start, same end
         (DateRange(2, 4), DateRange(2, 4), False),
@@ -192,7 +200,9 @@ def test_near_bad_val(val):
 def test_lt(left, right, less_than):
     assert (left < right) == less_than
 
-@pytest.mark.parametrize('left, right, new',
+
+@pytest.mark.parametrize(
+    'left, right, new',
     [
         # equal makes equal
         (DateRange(1, 2), DateRange(1, 2), DateRange(1, 2)),

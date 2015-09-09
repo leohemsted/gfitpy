@@ -2,10 +2,6 @@ import pytest
 
 from gfitpy.utils.activities import Activity
 
-def test_activity_doesnt_exist():
-    with pytest.raises(AttributeError):
-        Activity.blahblahblah
-
 
 @pytest.mark.parametrize(
     'activity',
@@ -16,7 +12,8 @@ def test_activity_doesnt_exist():
     ]
 )
 def test_activity_valid(activity):
-    assert activity.valid() == True
+    assert activity.valid()
+
 
 @pytest.mark.parametrize(
     'activity',
@@ -26,7 +23,7 @@ def test_activity_valid(activity):
     ]
 )
 def test_activity_invalid(activity):
-    assert activity.valid() == False
+    assert not activity.valid()
 
 
 @pytest.mark.parametrize(
@@ -39,6 +36,7 @@ def test_activity_invalid(activity):
 )
 def test_mfp_id(activity, mfp_id):
     assert activity.mfp_id == mfp_id
+
 
 @pytest.mark.parametrize(
     'activity',

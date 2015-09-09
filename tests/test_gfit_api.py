@@ -20,7 +20,7 @@ def test_preprocess_data_correct_daterange(proc_datapoint, daterange, datetime):
         'minStartTimeNs': 1000000000,
         'maxEndTimeNs': 2000000000,
     }
-    datetime.fromtimestamp=str
+    datetime.fromtimestamp = str
 
     GfitAPI({}).preprocess_data(data, Mock())
 
@@ -40,7 +40,7 @@ def test_preprocess_data_calls_datapoint(proc_datapoint, daterange, datetime):
 
     GfitAPI({}).preprocess_data(data, d_t)
 
-    assert proc_datapoint.call_args_list  == [call('a', d_t), call('b', d_t)]
+    assert proc_datapoint.call_args_list == [call('a', d_t), call('b', d_t)]
 
 
 @patch('gfitpy.gfit_api.datetime')
@@ -109,7 +109,7 @@ def test_credentials_retrieved(storage, refresh_creds):
 )
 def test_credentials_are_refreshed_when_invalid(storage_get):
     with patch.object(GfitAPI, 'refresh_credentials') as refresh_creds,\
-        patch('gfitpy.gfit_api.Storage') as storage:
+            patch('gfitpy.gfit_api.Storage') as storage:
         storage.return_value.get.return_value = storage_get
 
         api = GfitAPI({})
@@ -119,6 +119,7 @@ def test_credentials_are_refreshed_when_invalid(storage_get):
     # refresh_credentials was not called
     assert refresh_creds.call_args_list == [call(storage.return_value)]
     assert ret == refresh_creds.return_value
+
 
 @patch.object(GfitAPI, 'refresh_credentials')
 @patch('gfitpy.gfit_api.Storage')
@@ -136,7 +137,6 @@ def test_credentials_are_not_touched_when_valid(storage, refresh_creds):
     assert ret == storage.get.return_value
 
 
-
 @patch('gfitpy.gfit_api.argparse')
 @patch('gfitpy.gfit_api.tools')
 @patch('gfitpy.gfit_api.OAuth2WebServerFlow')
@@ -149,6 +149,7 @@ def test_refresh_credentials_creates_flow(oauth, tools, argparse):
     ).refresh_credentials(Mock())
 
     assert oauth.call_args_list == [call(client_id, client_secret, oauth_scope)]
+
 
 @patch('gfitpy.gfit_api.argparse')
 @patch('gfitpy.gfit_api.tools')
