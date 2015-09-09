@@ -2,7 +2,7 @@ from datetime import datetime as dt, date as d, time as t, timedelta as td
 
 import pytest
 
-from gfitpy.utils import DateRange
+from gfitpy.utils.date_range import DateRange
 
 
 def test_create_date_range():

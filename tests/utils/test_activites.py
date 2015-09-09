@@ -1,6 +1,6 @@
 import pytest
 
-from gfitpy.utils import Activity
+from gfitpy.utils.activities import Activity
 
 def test_activity_doesnt_exist():
     with pytest.raises(AttributeError):
@@ -21,7 +21,7 @@ def test_activity_valid(activity):
 @pytest.mark.parametrize(
     'activity',
     [
-        Activity.unknown_unable_to_detect_activity,
+        Activity.unknown,
         Activity.sleeping
     ]
 )
@@ -43,7 +43,7 @@ def test_mfp_id(activity, mfp_id):
 @pytest.mark.parametrize(
     'activity',
     [
-        Activity.unknown_unable_to_detect_activity,
+        Activity.unknown,
         Activity.sleeping
     ]
 )
