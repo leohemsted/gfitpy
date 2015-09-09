@@ -54,10 +54,7 @@ setup(
         'Operating System :: Microsoft :: Windows',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: Implementation :: CPython',
-        'Programming Language :: Python :: Implementation :: PyPy',
         'Topic :: Utilities',
     ],
     keywords=[
@@ -70,9 +67,6 @@ setup(
         # 'oauth2client>=1.4.6',
     ],
     tests_require=['mock', 'pytest'],
-    extras_require={
-        ':python_version=="3.3"': ['enum34']
-    },
     cmdclass={'test': PyTest},
     entry_points={
         'console_scripts': [
