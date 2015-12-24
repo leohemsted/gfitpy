@@ -56,37 +56,20 @@ def test_preprocess_data_no_points(proc_datapoint, daterange, datetime):
 
     assert not proc_datapoint.called
 
-
-@patch.object(GfitAPI, 'login')
-def test_enter_returns_self(login_mock):
-    api = GfitAPI({})
-    ret = api.__enter__(Mock())
-
-    assert login_mock.call_args_list == [call()]
-    assert ret == api
-
-
-def test_enter_sets_start():
-    start = Mock()
-    api = GfitAPI({})
-
-    with patch.object(GfitAPI, 'login'):
-        api.__enter__(start)
-    assert api.start == start
-
-
 @patch('gfitpy.gfit_api.httplib2')
+@patch.object(GfitAPI, '__enter__')
 @patch.object(GfitAPI, 'get_credentials')
 @patch('gfitpy.gfit_api.build')
-def test_login(build, get_creds, httplib):
+def test_login(build, get_creds, enter, httplib):
     creds = get_creds.return_value
     api = GfitAPI({})
 
-    api.login()
+    ret = api.login()
 
     assert creds.authorize.call_args_list == [call(httplib.Http.return_value)]
     assert build.call_args_list == [call('fitness', 'v1', http=creds.authorize.return_value)]
     assert api.api == build.return_value
+    assert ret == enter.return_value
 
 
 @patch.object(GfitAPI, 'refresh_credentials')
