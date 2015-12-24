@@ -28,10 +28,11 @@ def main(argv=()):
     start_time = datetime.datetime.now() - datetime.timedelta(days=10)
 
     gfit = GfitAPI(
-        settings={'client_id': CLIENT_ID, 'client_secret': CLIENT_SECRET}
+        start_time=start_time,
+        settings_dict={'client_id': CLIENT_ID, 'client_secret': CLIENT_SECRET}
     )
 
-    with gfit(start_time):
+    with gfit.login():
         cal_data = gfit.get_cal_data()
         act_data = gfit.get_activity_data()
 

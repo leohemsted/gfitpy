@@ -13,7 +13,7 @@ from .utils.date_range import DateRange
 class GfitAPI(object):
     api_scope = None
 
-    def __init__(self, settings_dict=None):
+    def __init__(self, start_time, settings_dict=None):
         if settings_dict is None:
             settings_dict = {}
         settings = self.default_settings()
@@ -23,7 +23,7 @@ class GfitAPI(object):
         self.client_secret = settings['client_secret']
         self.api_scope = settings['api_scope']
 
-        self.start = None
+        self.start = start_time
         self.api = None
         self.credentials = None
         self.authed_http = None
@@ -37,9 +37,7 @@ class GfitAPI(object):
             'api_scope': 'https://www.googleapis.com/auth/fitness.activity.read',
         }
 
-    def __enter__(self, start):
-        self.start = start
-        self.login()
+    def __enter__(self):
         return self
 
     def __exit__(self, exc_type, exc_val, traceback):
@@ -72,6 +70,8 @@ class GfitAPI(object):
 
         self.authed_http = self.credentials.authorize(httplib2.Http())
         self.api = build('fitness', 'v1', http=self.authed_http)
+
+        self.__enter__()
 
     def _get_fit_data(self, data_source, data_type):
         response = self.api.users().dataSources().datasets().get(

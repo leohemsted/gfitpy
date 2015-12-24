@@ -20,10 +20,14 @@ class PyTest(TestCommand):
     """
     PyTest TestCommand wrapper, to run tests each time. Don't ask me how it works, it's wizard shit.
     """
+    test_args = ['tests']
+    test_suite = True
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
     def finalize_options(self):
         TestCommand.finalize_options(self)
-        self.test_args = []
-        self.test_suite = True
 
     def run_tests(self):
         import pytest
