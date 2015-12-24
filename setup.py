@@ -3,37 +3,14 @@
 from __future__ import division, absolute_import, print_function
 
 import os
-import sys
 
 from setuptools import find_packages
 from setuptools import setup
-from setuptools.command.test import test as TestCommand
 
 # Get the long description from the relevant file
 HERE = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(HERE, 'README.rst')) as f:
     DESC = f.read()
-
-
-# setup PyTest's weird TestCommand stuff
-class PyTest(TestCommand):
-    """
-    PyTest TestCommand wrapper, to run tests each time. Don't ask me how it works, it's wizard shit.
-    """
-    test_args = ['tests']
-    test_suite = True
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-    def finalize_options(self):
-        TestCommand.finalize_options(self)
-
-    def run_tests(self):
-        import pytest
-        errno = pytest.main(self.test_args)
-        sys.exit(errno)
-
 
 setup(
     name='gfitpy',
@@ -70,8 +47,8 @@ setup(
         'google-api-python-client',
         # 'oauth2client>=1.4.6',
     ],
+    setup_requires=['pytest-runner'],
     tests_require=['mock', 'pytest'],
-    cmdclass={'test': PyTest},
     entry_points={
         'console_scripts': [
             'gfitpy = gfitpy.__main__:main',
